@@ -41,28 +41,29 @@ async function seed() {
       userId: createdUser.id,
       postId: createdPost.id,
       content: "Working on it!",
-      // replies: {
-      //   create: [
-      //     {
-      //       userId: createdUser.id,
-      //       postId: createdPost.id,
-      //       content: "Soon!",
-      //     },
-      //   ],
-      // },
+      replies: {
+        create: [
+          {
+            userId: createdUser.id,
+            postId: createdPost.id,
+            content: "Soon!",
+          },
+        ],
+      },
     },
     include: {
       replies: true,
     },
   });
+  
   console.log('comment', createdComment);
-  // const createdCategory = await prisma.category.create({
-  //   data: {
-  //     name: "working at the carwash yea",
-  //   },
-  // });
+  const createdCategory = await prisma.catagory.create({
+    data: {
+      name: "working at the carwash yea",
+    },
+  });
 
-  // console.log("category", createdCategory, createdComment);
+  console.log("category", createdCategory);
 }
 
 seed().catch(async (error) => {
