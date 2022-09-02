@@ -6,8 +6,8 @@ const { messages } = require("../utils/utils");
 const getAllUsers = async (req, res) => {
   const users = await prisma.user.findMany({
     include: {
-        profile: true,
-      },
+      profile: true,
+    },
   });
 
   res.status(200).json({
@@ -121,33 +121,47 @@ const updateUserById = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-    console.log('deleting new');
-    const userId = parseInt(req.params.id);
+  console.log("deleting new");
+  const userId = parseInt(req.params.id);
 
-
-    const user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       id: userId,
     },
   });
-  console.log('user', user);
+  console.log("user", user);
 
   if (!user) {
     res.status(404).json({ error: messages.userIdNotFound });
   }
 
+  console.log("userid", userId);
+
+  const deletedPost = await prisma.post.delete({
+    where: {
+      id: userId,
+    },
+  })
+
+  const deletedProfile = await prisma.profile.delete({
+    where: {
+      id: userId,
+    },
+
+  });
+
   const deletedUser = await prisma.user.delete({
     where: {
-        id: userId
+      id: userId
     }
   })
 
   res.status(201).json({ user: deletedUser });
-}
+};
 
 module.exports = {
   getAllUsers,
   createNewUser,
   updateUserById,
-  deleteUser
+  deleteUser,
 };

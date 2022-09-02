@@ -21,10 +21,49 @@ async function seed() {
         "https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGNhdHxlbnwwfHwwfHw%3D&w=1000&q=80",
     },
   });
-  console.log('created profile', createdProfile);
+  console.log("created profile", createdProfile);
 
+  const createdPost = await prisma.post.create({
+    data: {
+      title: "Being a postman looks easy!",
+      content: "Wonder how much they are on? ",
+      imageUrl:
+        "https://image.shutterstock.com/image-photo/postman-letters-on-light-background-260nw-1776525299.jpg",
+      userId: createdUser.id,
+    },
+  });
+  console.log("created post", createdPost);
+  // console.log('c user', createdUser.id);
+  // console.log('c post', createdPost.id);
+
+  const createdComment = await prisma.comment.create({
+    data: {
+      userId: createdUser.id,
+      postId: createdPost.id,
+      content: "Working on it!",
+      // replies: {
+      //   create: [
+      //     {
+      //       userId: createdUser.id,
+      //       postId: createdPost.id,
+      //       content: "Soon!",
+      //     },
+      //   ],
+      // },
+    },
+    include: {
+      replies: true,
+    },
+  });
+  console.log('comment', createdComment);
+  // const createdCategory = await prisma.category.create({
+  //   data: {
+  //     name: "working at the carwash yea",
+  //   },
+  // });
+
+  // console.log("category", createdCategory, createdComment);
 }
-
 
 seed().catch(async (error) => {
   console.error(error);
