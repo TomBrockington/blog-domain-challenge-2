@@ -116,8 +116,8 @@ const updateUserById = async (req, res) => {
       }
     }
 
-    res.status(500).json({ error: "500" });
   }
+  res.status(500).json({ error: "500" });
 };
 
 const deleteUser = async (req, res) => {
