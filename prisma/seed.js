@@ -33,23 +33,21 @@ async function seed() {
     },
   });
   console.log("created post", createdPost);
-  // console.log('c user', createdUser.id);
-  // console.log('c post', createdPost.id);
 
   const createdComment = await prisma.comment.create({
     data: {
       userId: createdUser.id,
       postId: createdPost.id,
       content: "Working on it!",
-      // replies: {
-      //   create: [
-      //     {
-      //       userId: createdUser.id,
-      //       postId: createdPost.id,
-      //       content: "Soon!",
-      //     },
-      //   ],
-      // },
+      replies: {
+        create: [
+          {
+            userId: createdUser.id,
+            postId: createdPost.id,
+            content: "Soon!",
+          },
+        ],
+      },
     },
     include: {
       replies: true,

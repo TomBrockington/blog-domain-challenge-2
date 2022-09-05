@@ -14,7 +14,9 @@ const commentsRouter = require('./routers/comments')
 const categoriesRouter = require('./routers/categories')
 
 app.use('/users', userRouter)
-app.use('/posts', postsRouter)
+
+app.use('/users', postsRouter)
+// app.use('/posts', postsRouter)
 app.use('/comments', commentsRouter)
 app.use('/categories', categoriesRouter)
 

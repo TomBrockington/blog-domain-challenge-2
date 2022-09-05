@@ -19,7 +19,7 @@ model Catagory {
 model Comment {
   id        Int       @id @default(autoincrement())
   content   String
-  userId    Int?      @unique
+  userId    Int?      
   user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId    Int?
   post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -32,7 +32,7 @@ model Comment {
 
 model Post {
   id          Int        @id @default(autoincrement())
-  userId      Int?       @unique
+  userId      Int?       
   user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title       String     @unique
   content     String

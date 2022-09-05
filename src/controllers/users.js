@@ -2,6 +2,7 @@ const { Prisma } = require("@prisma/client");
 const prisma = require("../utils/prisma");
 
 const { messages } = require("../utils/utils");
+const { findUserById } = require("../utils/helpers")
 
 const getAllUsers = async (req, res) => {
   const users = await prisma.user.findMany({
@@ -68,18 +69,11 @@ const createNewUser = async (req, res) => {
 };
 
 const updateUserById = async (req, res) => {
-  console.log("updaing user");
   const userId = parseInt(req.params.id);
-  console.log("userid", userId);
 
-  const { username, email, password, firstName, lastName, age, pictureUrl } =
-    req.body;
+  const { username, email, password, firstName, lastName, age, pictureUrl } = req.body;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
+  const user = await findUserById(userId)
 
   if (!user) {
     res.status(404).json({ error: messages.userIdNotFound });
@@ -116,20 +110,15 @@ const updateUserById = async (req, res) => {
       }
     }
 
+    res.status(500).json({ error: "500" });
   }
-  res.status(500).json({ error: "500" });
 };
 
 const deleteUser = async (req, res) => {
   console.log("deleting new");
   const userId = parseInt(req.params.id);
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-  console.log("user", user);
+  const user = await findUserById(userId)
 
   if (!user) {
     res.status(404).json({ error: messages.userIdNotFound });
